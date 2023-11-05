@@ -21,19 +21,21 @@ export default function CaretakerItem({
           {name}
         </Heading>
         <Flex flexDir="column">
-          <Text>{email}</Text>
-          <Text>{phone}</Text>
+          <Text fontSize="sm">{email}</Text>
+          <Text fontSize="md">{phone}</Text>
         </Flex>
       </Flex>
-      <Divider />
+      <Divider my={4} />
       <Heading as="h4" size="md">
         Pets
       </Heading>
-      {pets.map((pet) => (
-        <Badge px={2} colorScheme="purple" borderRadius="full" key={pet.id}>
-          {pet.name} ({pet.age} anos)
-        </Badge>
-      ))}
+      <Flex gap={2} mt={4}>
+        {pets.map((pet) => (
+          <Badge px={2} colorScheme="purple" borderRadius="full" key={pet.id}>
+            {pet.name} ({pet.age} anos)
+          </Badge>
+        ))}
+      </Flex>
     </Box>
   );
 }

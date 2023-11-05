@@ -15,12 +15,14 @@ export type FileInputProps = {
   images: ImageType[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  isInvalid?: boolean;
 };
 
 export default function FileInput({
   images,
   onChange,
   disabled,
+  isInvalid,
 }: FileInputProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -33,7 +35,7 @@ export default function FileInput({
         justify="center"
         alignItems="center"
         borderRadius="md"
-        border="1px dashed rgba(0, 0, 0, .3)"
+        border={isInvalid ? "1px dashed red" : "1px dashed rgba(0, 0, 0, .3)"}
         onClick={(e) => {
           e.stopPropagation();
           if (inputRef.current) {

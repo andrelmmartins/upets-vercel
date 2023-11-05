@@ -13,6 +13,7 @@ import {
   Divider,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
@@ -43,7 +44,6 @@ export default function MyTemporaryHouseForm({
     handleSubmit,
     watch,
     setValue,
-    reset,
   } = useForm<MyTemporaryHouseFormType>({
     defaultValues: {
       description: temporaryHouse?.description || "",
@@ -62,8 +62,6 @@ export default function MyTemporaryHouseForm({
   const session = useSession();
   const axios = useAxios();
   const cancelRef = React.useRef(null);
-
-  console.log({ temporaryHouse });
 
   const initialSelectedPets = temporaryHouse?.pets.length
     ? temporaryHouse?.pets.map((pet) => pet.id)
@@ -253,7 +251,7 @@ export default function MyTemporaryHouseForm({
     setSelectedCareTakers([]);
   };
 
-  console.log(errors);
+  const isInvalid = Object.values(errors).length > 0;
 
   return (
     <>
@@ -264,24 +262,30 @@ export default function MyTemporaryHouseForm({
         <FormControl
           size="lg"
           onSubmit={handleSubmit(requestCreateTemporaryHouse)}
+          isInvalid={isInvalid}
         >
           <Box mb={4}>
             <FormLabel>Nome</FormLabel>
             <Input
+              isInvalid={!!errors?.title}
               {...register("title", {
                 required: "É necessário informar um nome para o lar temporário",
               })}
               variant="outline"
             />
+            {errors?.title && (
+              <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+            )}
           </Box>
           <Box>
             <FormLabel>Descrição</FormLabel>
-            <Textarea {...register("description")} />
+            <Textarea isInvalid={false} {...register("description")} />
           </Box>
           <Flex gap={4} my={4}>
             <Box w="30%">
               <FormLabel>Estado</FormLabel>
               <Input
+                isInvalid={false}
                 {...register("address.state", {
                   disabled: true,
                 })}
@@ -290,6 +294,7 @@ export default function MyTemporaryHouseForm({
             <Box w="60%">
               <FormLabel>CEP</FormLabel>
               <Input
+                isInvalid={!!errors?.address?.zipCode}
                 {...register("address.zipCode", {
                   required: "É necessário informar um CEP",
                   pattern: {
@@ -299,53 +304,86 @@ export default function MyTemporaryHouseForm({
                 })}
                 variant="outline"
               />
+              {errors?.address?.zipCode && (
+                <FormErrorMessage>
+                  {errors.address?.zipCode.message}
+                </FormErrorMessage>
+              )}
             </Box>
             <Box w="100%">
               <FormLabel>Cidade</FormLabel>
               <Input
+                isInvalid={!!errors?.address?.city}
                 {...register("address.city", {
                   required: "É necessário informar uma cidade",
                 })}
                 variant="outline"
               />
+              {errors?.address?.city && (
+                <FormErrorMessage>
+                  {errors.address?.city.message}
+                </FormErrorMessage>
+              )}
             </Box>
           </Flex>
           <Flex gap={4} mb={4}>
             <Box w="60%">
               <FormLabel>Bairro</FormLabel>
               <Input
+                isInvalid={!!errors?.address?.district}
                 {...register("address.district", {
                   required: "É necessário informar um bairro",
                 })}
                 variant="outline"
               />
+              {errors?.address?.district && (
+                <FormErrorMessage>
+                  {errors.address?.district.message}
+                </FormErrorMessage>
+              )}
             </Box>
             <Box w="100%">
               <FormLabel>Rua</FormLabel>
               <Input
+                isInvalid={!!errors?.address?.street}
                 {...register("address.street", {
                   required: "É necessário informar a rua",
                 })}
                 variant="outline"
               />
+              {errors?.address?.street && (
+                <FormErrorMessage>
+                  {errors.address?.street.message}
+                </FormErrorMessage>
+              )}
             </Box>
             <Box>
               <FormLabel>Número</FormLabel>
               <Input
+                isInvalid={!!errors?.address?.number}
                 {...register("address.number", {
                   required: "É necessário informar o número",
                 })}
                 variant="outline"
               />
+              {errors?.address?.number && (
+                <FormErrorMessage>
+                  {errors.address?.number.message}
+                </FormErrorMessage>
+              )}
             </Box>
           </Flex>
           <Box mb={4}>
             <FormLabel>Complemento</FormLabel>
-            <Input {...register("address.complement")} variant="outline" />
+            <Input
+              isInvalid={false}
+              {...register("address.complement")}
+              variant="outline"
+            />
           </Box>
           <Box mb={4}>
             <FormLabel>Pets</FormLabel>
-            <Select onChange={handleSelectPet}>
+            <Select isInvalid={false} onChange={handleSelectPet}>
               <option value=""></option>
               {filteredPets.map((pet) => (
                 <option key={pet.id} value={pet.id}>
@@ -375,7 +413,7 @@ export default function MyTemporaryHouseForm({
           </Box>
           <Box mb={8}>
             <FormLabel>Cuidadores</FormLabel>
-            <Select onChange={handleSelectCareTaker}>
+            <Select isInvalid={false} onChange={handleSelectCareTaker}>
               <option value=""></option>
               {filteredCareTakers.map((pet) => (
                 <option key={pet.id} value={pet.id}>

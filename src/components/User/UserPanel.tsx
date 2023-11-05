@@ -7,9 +7,11 @@ import {
   Divider,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import React from "react";
@@ -33,6 +35,7 @@ export default function UserPanel() {
 
   const axios = useAxios();
   const session = useSession();
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   const [userInfo, setUserInfo] = React.useState<IUser>();
 
@@ -87,19 +90,24 @@ export default function UserPanel() {
           Meu Perfil
         </Heading>
         <Divider my={4} />
-        <FormControl variant="outline">
+        <FormControl variant="outline" isInvalid>
           <Box mb={4}>
             <FormLabel>Nome</FormLabel>
             <Input
+              isInvalid={!!errors.name}
               variant="outline"
               {...register("name", { required: "É preciso informar um nome" })}
             />
+            {errors.name && (
+              <FormErrorMessage>{errors.name.message}</FormErrorMessage>
+            )}
           </Box>
           <Box>
             <FormLabel>Email</FormLabel>
             <Input
               variant="outline"
               type="email"
+              isInvalid={!!errors.email}
               {...register("email", {
                 pattern: {
                   value: /^[\w\.-]+@[\w\.-]+\.\w+$/,
@@ -108,19 +116,34 @@ export default function UserPanel() {
                 required: "É preciso informar um email",
               })}
             />
+            {errors.email && (
+              <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+            )}
           </Box>
-          <Flex gap={4} my={4}>
-            <Box w="50%">
+          <Flex gap={4} my={4} flexDir={isMobile ? "column" : "row"}>
+            <Box w={isMobile ? "100%" : "50%"}>
               <FormLabel>Documento</FormLabel>
-              <Input variant="outline" {...register("document")} />
+              <Input
+                variant="outline"
+                isInvalid={false}
+                {...register("document")}
+              />
             </Box>
-            <Box w="20%">
+            <Box w={isMobile ? "100%" : "20%"}>
               <FormLabel>Data de Nascimento</FormLabel>
-              <Input variant="outline" {...register("birthDate")} />
+              <Input
+                variant="outline"
+                isInvalid={false}
+                {...register("birthDate")}
+              />
             </Box>
-            <Box w="30%">
+            <Box w={isMobile ? "100%" : "30%"}>
               <FormLabel>Telefone</FormLabel>
-              <Input variant="outline" {...register("phone")} />
+              <Input
+                variant="outline"
+                isInvalid={false}
+                {...register("phone")}
+              />
             </Box>
           </Flex>
           <Flex justify="end" mt={8}>

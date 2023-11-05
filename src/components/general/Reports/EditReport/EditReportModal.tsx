@@ -90,6 +90,7 @@ const EditReportModal = ({
             register={register}
             images={images}
             setImages={setImages}
+            errors={errors}
           />
         </ModalBody>
         <ModalFooter>

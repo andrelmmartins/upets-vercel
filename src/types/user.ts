@@ -9,7 +9,7 @@ export interface IUser {
   name: string;
   phone: string | null;
   role: string;
-  pets?: IPet[];
+  caretakingPets?: IPet[];
 }
 
 export interface IAddress {

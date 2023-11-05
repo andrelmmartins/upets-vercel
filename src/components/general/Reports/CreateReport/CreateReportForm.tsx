@@ -2,6 +2,7 @@ import {
   Box,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Select,
@@ -10,8 +11,22 @@ import {
 import React from "react";
 import FileInput, { ImageType } from "../../FileInput/FileInput";
 import { useAxios } from "@/src/hooks/useAxios";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { CreateReportFormType } from "./CreateReportModal";
 
-const CreateReportForm = ({ register, images, setImages }) => {
+export type CreateReportFormProps = {
+  register: UseFormRegister<CreateReportFormType>;
+  images: ImageType[];
+  setImages: React.Dispatch<React.SetStateAction<ImageType[]>>;
+  errors: FieldErrors<CreateReportFormType>;
+};
+
+export default function CreateReportForm({
+  register,
+  images,
+  setImages,
+  errors = {},
+}: CreateReportFormProps) {
   const axios = useAxios();
 
   const [petsList, setPetsList] = React.useState([]);
@@ -51,7 +66,7 @@ const CreateReportForm = ({ register, images, setImages }) => {
   };
 
   return (
-    <FormControl size="lg">
+    <FormControl size="lg" isInvalid={Object.values(errors).length > 0}>
       <Flex mt={8} w="100%" flexDirection="column" gap={8}>
         <Flex flexDirection="column">
           <FormLabel>Imagem</FormLabel>
@@ -64,38 +79,51 @@ const CreateReportForm = ({ register, images, setImages }) => {
         <Box>
           <FormLabel>Pet</FormLabel>
           <Select
+            isInvalid={!!errors.petId}
             {...register("petId", {
               required: "Você precisa selecionar um Pet",
             })}
           >
+            <option></option>
             {petsList.map((pet: any) => (
               <option key={pet?.id} value={pet?.id}>
                 {pet?.name}
               </option>
             ))}
           </Select>
+          {errors.petId && (
+            <FormErrorMessage>É preciso adicionar um pet</FormErrorMessage>
+          )}
         </Box>
 
         <Box>
           <FormLabel>Titulo</FormLabel>
           <Input
+            isInvalid={!!errors.title}
             variant="outline"
             {...register("title", {
               required: "Você precisa informar um titulo",
             })}
           />
+          {errors.petId && (
+            <FormErrorMessage>É preciso informar um titulo</FormErrorMessage>
+          )}
         </Box>
         <Box>
           <FormLabel>Descrição</FormLabel>
           <Textarea
+            isInvalid={!!errors.content}
             {...register("content", {
               required: "Você precisa informar uma descrição",
             })}
           />
+          {errors.petId && (
+            <FormErrorMessage>
+              É preciso adicionar uma descrição
+            </FormErrorMessage>
+          )}
         </Box>
       </Flex>
     </FormControl>
   );
-};
-
-export default CreateReportForm;
+}

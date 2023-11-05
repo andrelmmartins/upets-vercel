@@ -31,7 +31,7 @@ export default function CaretakerList() {
         <CaretakerItem
           email={caretaker.email}
           name={caretaker.name}
-          pets={caretaker.pets || []}
+          pets={caretaker.caretakingPets || []}
           key={caretaker.id}
           phone={caretaker.phone || ""}
         />

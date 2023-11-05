@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from "@chakra-ui/react";
+import { Box, Flex, Grid, useMediaQuery } from "@chakra-ui/react";
 import TemporaryHouseList from "./TemporaryHouseList";
 import React from "react";
 import MyTemporaryHouse from "./MyTemporaryHouse/MyTemporaryHouse";
@@ -11,6 +11,7 @@ export default function TemporaryHouseContainer() {
 
   const axios = useAxios();
   const session = useSession();
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   const [temporaryHouses, setTemporaryHouses] = React.useState<
     ITemporaryHouse[]
@@ -74,10 +75,15 @@ export default function TemporaryHouseContainer() {
   }, [session]);
 
   return (
-    <Grid my={8} h="100%" gridTemplateColumns="16rem 1fr">
+    <Grid my={8} h="100%" gridTemplateColumns={isMobile ? "1fr" : "16rem 1fr"}>
       <aside>
-        <Box boxShadow="base">
-          <Flex flexDir="column">
+        <Box boxShadow={isMobile ? undefined : "base"}>
+          <Flex
+            flexDir="column"
+            mb={isMobile ? 8 : 0}
+            mx={isMobile ? 8 : 0}
+            gap={isMobile ? 2 : 0}
+          >
             {options.map((opt, index) => (
               <OptionButton
                 key={opt.value}

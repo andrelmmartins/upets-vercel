@@ -80,7 +80,8 @@ const CreateReportModal = ({
           <CreateReportForm
             register={register}
             images={images}
-            setImages={setImages}
+            setImages={(images) => setImages(images)}
+            errors={errors}
           />
         </ModalBody>
         <ModalFooter>
