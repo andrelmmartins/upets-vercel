@@ -1,12 +1,12 @@
 import { ImageType } from "../components/general/FileInput/FileInput";
-import { IPet } from "./pet";
+import { Pet } from "./pet";
 
 export interface IReport {
   content: string;
   title: string;
   petId: number;
   photos: ImageType[];
-  pet?: IPet;
+  pet?: Pet;
   reportDatCreation: string;
   id: number;
 }

@@ -57,8 +57,8 @@ const CreateReportModal = ({
     };
 
     try {
-      await axios.post("/reports", payload);
-      handleCreate(payload);
+      const { data } = await axios.post("/reports", payload);
+      handleCreate(data);
       resetForm();
     } catch (error) {
       console.log(error);
@@ -75,7 +75,10 @@ const CreateReportModal = ({
     <Modal isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent minW="520px">
-        <CustomModalHeader title="Criar Novo Reporte" onClose={handleClose} />
+        <CustomModalHeader
+          title="Criar Nova Publicação"
+          onClose={handleClose}
+        />
         <ModalBody>
           <CreateReportForm
             register={register}

@@ -7,7 +7,7 @@ export default function Main({
   ...containerProps
 }: ContainerProps & { children: React.ReactNode; uPetsBackground?: boolean }) {
   return (
-    <Container as="main" h="100vh" w="100vw" {...containerProps}>
+    <Container as="main" h="100vh" w="100vw" maxW="100%" {...containerProps}>
       {children}
       {uPetsBackground && <Background />}
     </Container>

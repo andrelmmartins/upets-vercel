@@ -8,6 +8,12 @@ import {
   Text,
   IconButton,
   useMediaQuery,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -22,6 +28,9 @@ export type ReportCardProps = {
   owner: boolean;
   deleteReport: (id: number) => void;
   editReport: (report: IReport, id: number) => void;
+  userName: string;
+  userEmail: string;
+  userPhone?: string;
 } & IReport;
 
 const ReportCard = ({
@@ -34,6 +43,9 @@ const ReportCard = ({
   editReport,
   petId,
   reportDatCreation,
+  userEmail,
+  userName,
+  userPhone,
 }: ReportCardProps) => {
   const cancelRef = React.useRef(null);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -57,7 +69,7 @@ const ReportCard = ({
       {owner && (
         <Flex gap={1} w="fit-content" borderRadius={8} boxShadow="inner">
           <IconButton
-            size="lg"
+            size="md"
             colorScheme="facebook"
             variant="ghost"
             aria-label="edit"
@@ -66,7 +78,7 @@ const ReportCard = ({
             <EditIcon />
           </IconButton>
           <IconButton
-            size="lg"
+            size="md"
             colorScheme="red"
             variant="ghost"
             aria-label="delete"
@@ -109,7 +121,24 @@ const ReportCard = ({
                 <Heading as="h5" size="md">
                   {title}
                 </Heading>
-                <Avatar src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" />
+                <Popover>
+                  <PopoverTrigger>
+                    <Avatar size="sm" src={""} />
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverBody>
+                      <Flex flexDir="column">
+                        <Text fontSize="md">Nome: {userName}</Text>
+                        <Text fontSize="md">Email: {userEmail}</Text>
+                        {userPhone && (
+                          <Text fontSize="md">Telefone: {userPhone}</Text>
+                        )}
+                      </Flex>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
               </Flex>
               <Box>
                 <Text as="sub" fontSize="1.25rem" color="#838383">

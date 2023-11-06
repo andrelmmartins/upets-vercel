@@ -30,6 +30,9 @@ const CardsList = ({
           reportDatCreation={item.reportDatCreation}
           title={item.title}
           deleteReport={deleteReport}
+          userEmail={item.user.email}
+          userName={item.user.name}
+          userPhone={item.user?.phone}
         />
       ))}
     </Flex>
