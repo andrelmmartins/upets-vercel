@@ -5,6 +5,7 @@ export const baseURL =
 
 const axiosInstance = axios.create({
   baseURL,
+  insecureHTTPParser: true,
 });
 
 export default axiosInstance;
