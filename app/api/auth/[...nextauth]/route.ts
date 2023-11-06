@@ -3,7 +3,7 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
-import axiosInstance from "@/src/api/instance";
+import axiosInstance, { baseURL } from "@/src/api/instance";
 
 const providers = [
   CredentialsProvider({
@@ -13,7 +13,7 @@ const providers = [
       password: { label: "Password", type: "password" },
     },
     async authorize(credentials, req) {
-      const res = await fetch("http://localhost:3001/auth/signin", {
+      const res = await fetch(`${baseURL}/auth/signin`, {
         method: "POST",
         body: JSON.stringify({
           email: credentials?.email,

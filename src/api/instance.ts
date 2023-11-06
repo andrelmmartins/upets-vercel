@@ -1,7 +1,9 @@
 import axios from "axios";
 
+export const baseURL = process.env.BACKEND_URL || "http://localhost:3001";
+
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXTAUTH_URL || "http://localhost:3001",
+  baseURL,
 });
 
 export default axiosInstance;
